@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NetLib</title>
+<meta name="theme-color" content="#0F1419">
+<link rel="manifest" href="manifest.webmanifest" crossorigin="use-credentials">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0F1419;--card:#171D26;--card2:#1D2430;--bd:#262F3B;--tx:#D6DEE8;--mu:#7C8898;
+  --am:#F5B14C;--amb:rgba(245,177,76,.13);--ok:#5FD08A;--er:#F06A6A;--erb:rgba(240,106,106,.12);
+  --cta:#3FC1C9;--oncta:#0F1419;--dr:#A78BFA;--drb:rgba(167,139,250,.15);
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Inter,sans-serif;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:dark;
+}
+:root[data-theme="light"]{
+  --bg:#F6F7F9;--card:#FFFFFF;--card2:#F0F2F5;--bd:#DDE2E9;--tx:#1B2430;--mu:#647084;
+  --am:#B45F06;--amb:#FFF3DC;--ok:#1E7F45;--er:#C63D3D;--erb:#FDECEC;
+  --cta:#0E7C86;--oncta:#FFFFFF;--dr:#6D4FD6;--drb:#EEE9FD;color-scheme:light;
+}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--tx);font:15px/1.5 var(--sans)}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--cta);outline-offset:2px}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;align-items:center;gap:10px;
+  padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--bd)}
+.logo{font:600 16px var(--mono);letter-spacing:-.02em;margin-right:auto;display:flex;align-items:center;gap:8px}
+.logo b{color:var(--am);font-weight:600}
+.status{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mu);white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--mu)}
+.dot.on{background:var(--ok)}
+.pill{background:var(--drb);color:var(--dr);border:1px solid var(--dr);border-radius:6px;padding:1px 8px;font-size:12px}
+.ib{background:transparent;border:1px solid var(--bd);border-radius:8px;height:34px;min-width:34px;padding:0 10px;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:13px}
+.ib:hover{border-color:var(--mu)}
+.ib.spin svg{animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.ib.spin svg{animation:none}}
+
+.wrap{display:grid;grid-template-columns:300px minmax(0,1fr);min-height:calc(100% - 56px)}
+aside{border-right:1px solid var(--bd);padding:12px;overflow:auto}
+main{padding:20px clamp(12px,3vw,32px);min-width:0}
+.search{width:100%;height:38px;border-radius:8px;border:1px solid var(--bd);background:var(--card);padding:0 12px;margin-bottom:10px}
+.grp{font-size:12px;color:var(--mu);margin:14px 4px 4px}
+.item{display:block;width:100%;text-align:left;background:transparent;border:1px solid transparent;border-radius:8px;padding:8px 10px}
+.item:hover{background:var(--card)}
+.item.sel{background:var(--card);border-color:var(--bd)}
+.item .t{display:flex;align-items:center;gap:6px}
+.item .m{font-size:12px;color:var(--mu);font-family:var(--mono)}
+.new{width:100%;margin-top:12px}
+
+.head h1{font-size:22px;font-weight:600;margin:0 0 4px;letter-spacing:-.01em}
+.meta{display:flex;flex-wrap:wrap;gap:6px;font-size:12px;color:var(--mu);margin-bottom:12px}
+.tag{border:1px solid var(--bd);border-radius:6px;padding:1px 7px;font-family:var(--mono)}
+.notes{border-left:3px solid var(--bd);padding:2px 0 2px 12px;color:var(--mu);font-size:14px;white-space:pre-wrap;margin:0 0 16px;max-width:75ch}
+
+.code{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px 16px;overflow-x:auto}
+.code pre{margin:0;font:14px/2.05 var(--mono);white-space:pre}
+.cm{color:var(--mu)}
+.ph{font:inherit;font-size:13px;border-radius:4px;padding:1px 6px;margin:0 1px;min-width:4ch;vertical-align:baseline;
+  background:var(--amb);color:var(--am);border:1px dashed var(--am);outline:none}
+.ph::placeholder{color:var(--am);opacity:.85}
+.ph.ok{background:transparent;color:var(--ok);border:0;border-bottom:2px solid var(--ok);border-radius:0;padding:1px 2px}
+.ph.err{background:var(--erb);color:var(--er);border:0;border-bottom:2px solid var(--er);border-radius:0;padding:1px 2px}
+.ph:focus{box-shadow:0 0 0 2px var(--cta)}
+.tip{min-height:22px;font-size:13px;color:var(--mu);margin:8px 2px}
+.tip .e{color:var(--er)}
+
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 20px}
+.cta{background:var(--cta);color:var(--oncta);border:0;border-radius:8px;height:40px;padding:0 18px;font-weight:600;
+  display:inline-flex;align-items:center;gap:8px}
+.sec h2{font-size:14px;font-weight:600;margin:0 0 6px}
+.verify{font:13px/1.9 var(--mono);background:var(--card2);border-radius:8px;padding:8px 12px;margin-bottom:20px;overflow-x:auto;white-space:pre}
+.verify div{cursor:pointer}
+.verify div:hover{color:var(--cta)}
+
+.ed label{display:block;font-size:13px;color:var(--mu);margin:0 0 4px}
+.ed input,.ed textarea,.set input,.set select{width:100%;background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:8px 10px}
+.ed textarea{font:13px/1.6 var(--mono);min-height:340px;resize:vertical;tab-size:2}
+.ed .row{margin-bottom:12px}
+.warn{color:var(--er);font-size:13px}
+
+.set{max-width:520px}
+.set .row{margin-bottom:14px}
+.set label{display:block;font-size:13px;color:var(--mu);margin-bottom:4px}
+.set small{display:block;color:var(--mu);font-size:12px;margin-top:4px}
+
+.empty{max-width:46ch;color:var(--mu);margin-top:10vh}
+.empty h1{color:var(--tx);font-size:20px;font-weight:600}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);
+  background:var(--tx);color:var(--bg);padding:10px 16px;border-radius:8px;font-size:14px;max-width:90vw;z-index:9;
+  opacity:0;pointer-events:none;transition:opacity .15s}
+.toast.show{opacity:1}
+.back{display:none}
+@media (max-width:760px){
+  .wrap{grid-template-columns:1fr}
+  aside{border-right:0}
+  body.detail aside{display:none}
+  body:not(.detail) main{display:none}
+  .back{display:inline-flex}
+  .status .lbl{display:none}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <button class="ib back" id="back" aria-label="До списку"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg></button>
+  <div class="logo"><span>net<b>{{</b>lib<b>}}</b></span></div>
+  <div class="status"><span class="dot" id="dot"></span><span class="lbl" id="rel">—</span></div>
+  <span class="pill" id="drafts" hidden></span>
+  <button class="ib" id="sync" aria-label="Синхронізувати"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 11a8 8 0 0 0-14.9-3M4 5v4h4M4 13a8 8 0 0 0 14.9 3M20 19v-4h-4"/></svg></button>
+  <button class="ib" id="settings" aria-label="Налаштування"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+</header>
+<div class="wrap">
+  <aside>
+    <input class="search" id="q" type="search" placeholder="bgp, vrrp, mikrotik…" autocomplete="off">
+    <nav id="list"></nav>
+    <button class="ib new" id="newtpl">Новий шаблон</button>
+  </aside>
+  <main id="main"></main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script src="app.js"></script>
+</body>
+</html>
